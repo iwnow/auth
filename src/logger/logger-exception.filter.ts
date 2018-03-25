@@ -6,14 +6,23 @@ import { HttpException } from '@nestjs/common';
 
 @Catch()
 export class LoggerExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, response: express.Response) {
-		this.logger.log(this.logger.type.fatal, exception);
-		const statusCode = 500;
-		response.status(statusCode).json({
-			statusCode,
-			message: 'Internal server error',
-		});
-	}
 
 	constructor(protected logger: LoggerService) {}
+
+  catch(exception: Error | HttpException, response: express.Response) {
+		this.logger.log(this.logger.type.error, exception);
+
+		let statusCode = 500,
+			errorData: any = {
+				statusCode,
+				message: 'Internal server error',
+			};
+
+		if (exception instanceof HttpException) {
+			statusCode = exception.getStatus();
+			errorData = exception.getResponse();
+		}
+
+		response.status(statusCode).json(errorData);
+	}
 }

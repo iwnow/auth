@@ -1,10 +1,12 @@
 import { Get, Controller, Param, Query, Headers, Post, Body } from '@nestjs/common';
 import {plainToClass} from 'class-transformer';
 
-import {CreateTestDto} from './dto';
+class CreateTestDto {
+  readonly name: string;
+}
 
 @Controller()
-export class AppController {
+export class TestController {
 	@Get()
 	root(): string {
     return 'Hello World!';
