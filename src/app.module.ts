@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TestController } from './test.controller';
 import { LoggerModule } from './logger';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [LoggerModule],
-  controllers: [TestController],
-  components: [],
+  imports: [LoggerModule, AuthModule],
 })
 export class ApplicationModule {}
