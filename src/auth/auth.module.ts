@@ -1,9 +1,11 @@
 import { Module, NestModule, MiddlewaresConsumer } from '@nestjs/common';
-import { SignController } from './controllers';
 import { HelmetMiddleware } from '@nest-middlewares/helmet';
 
+import { SignController } from './controllers';
+import { SignService, UuidService } from './services';
+
 @Module({
-	components: [],
+	components: [UuidService, SignService],
 	controllers: [SignController],
 })
 export class AuthModule implements NestModule {

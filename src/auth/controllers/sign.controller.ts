@@ -1,15 +1,20 @@
 import { Controller, Get, Post, Body, UsePipes, HttpCode } from '@nestjs/common';
 import { SignUpDto } from '../dto';
-import {SignUpValidationPipe} from '../pipes';
+import {SignUpValidationPipe, SignInValidationPipe} from '../pipes';
+import {SignService} from '../services';
 
 @Controller('api/sign')
 export class SignController {
 
+	constructor(
+		protected signService: SignService,
+	) {}
+
 	/** create new user */
 	@Post('up')
 	@UsePipes(new SignUpValidationPipe())
-	signUp(@Body() signUpDto: SignUpDto) {
-		return 'User created!';
+	async signUp(@Body() signUpDto: SignUpDto) {
+		return await this.signService.signUp(signUpDto);
 	}
 
 	/** signIn/login to app
@@ -17,14 +22,22 @@ export class SignController {
 	 * if user or mobile device is exist/signUp
 	 */
 	@Post('in')
-	signIn(@Body() signInDto) {
-		return 'New Token';
+	@UsePipes(new SignInValidationPipe())
+	async signIn(@Body() signInDto) {
+		return await this.signService.signIn(signInDto);
 	}
 
 	/** forced invalidate token, exit from app */
 	@Post('out')
 	@HttpCode(200)
 	signOut(@Body() signOutDto) {
+
+	}
+
+	/** verify token */
+	@Post('verify')
+	@HttpCode(200)
+	verifyToken(@Body() verifyTokenDto) {
 
 	}
 }

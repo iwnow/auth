@@ -1,3 +1,5 @@
 export class TokenDto {
-	userUid: string;
+	constructor(
+		public userUid: string,
+	) {}
 }

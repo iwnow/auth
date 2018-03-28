@@ -7,5 +7,5 @@ export class User extends AbstractEntity {
 	deviceId?: string;
 	confirm?: boolean;
 	confirmCode?: number;
-	confirmAtUtc?: Date;
+	confirmAtUtc?: number;
 }
